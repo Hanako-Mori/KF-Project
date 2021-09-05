@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>KF-Project</title>
+        <title>Create Next App</title>
         <meta name="description" content="tbd" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
