@@ -8,6 +8,10 @@ I removed packages with paywalled features, i.e. [ChakraUI](https://pro.chakra-u
 
 # Current task(s)
 
-How would we scrape a webpage (for images) using Next.js?
+## How would we scrape a webpage (for images) using Next.js?
 
 I'll follow along [Create a public API by web scraping in NextJS ](https://dev.to/mtliendo/create-a-public-api-by-web-scraping-in-nextjs-2f5n) by [Michael Liendo](https://dev.to/mtliendo) for now. (Also thanks [dev.to](https://dev.to/) for not paywalling your articles like, e.g. Medium.)
+
+### How does the Next.js API Routes work? Does it output functions to index.js?
+
+[API Routes docs](https://nextjs.org/docs/api-routes/introduction)
