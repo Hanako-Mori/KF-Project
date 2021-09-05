@@ -15,3 +15,7 @@ I'll follow along [Create a public API by web scraping in NextJS ](https://dev.t
 ### How does the Next.js API Routes work? Does it output functions to index.js?
 
 [API Routes docs](https://nextjs.org/docs/api-routes/introduction)
+
+### What are Next.js routes?
+
+#### How are index.js and \_app.js related?
