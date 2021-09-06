@@ -3,12 +3,13 @@
 // import Image from "next/image";
 // import styles from "../styles/Home.module.css";
 
+import cheerio from "cheerio";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
-const Home: NextPage = () => {
+const Home: NextPage = (props) => {
   return (
     <>
       <Head>
@@ -24,9 +25,34 @@ const Home: NextPage = () => {
           alt="African_Rock_PythonOriginal"
         />
       </div>
+      <div>
+        <Image
+          src={"https://japari-library.com/" + props.link}
+          width={200}
+          height={400}
+          alt={props.title}
+        />
+      </div>
     </>
   );
 };
+
+export async function getStaticProps() {
+  const data = await fetch(
+    "https://japari-library.com/wiki/File:Forest_OwletOriginal.jpg"
+  );
+  const dataString = await data.text();
+  const $ = cheerio.load(dataString);
+  const link = $(".internal").attr("href");
+  const title = $(".internal").attr("title");
+  // const link =
+  //   "https://japari-library.com/w/images/3/3c/Forest_OwletOriginal.jpg";
+  // const title = "Forest_OwletOriginal";
+
+  return {
+    props: { link, title },
+  };
+}
 
 export default Home;
 
