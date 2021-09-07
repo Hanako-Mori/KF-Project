@@ -45,6 +45,7 @@ export async function getStaticProps() {
   const $ = cheerio.load(dataString);
   const link = $(".internal").attr("href");
   const title = $(".internal").attr("title");
+
   // const link =
   //   "https://japari-library.com/w/images/3/3c/Forest_OwletOriginal.jpg";
   // const title = "Forest_OwletOriginal";
