@@ -9,6 +9,30 @@ import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
+export async function getStaticProps() {
+  const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
+  const resString = await res.text();
+  const $ = cheerio.load(resString);
+  const link = $(".internal").attr("href");
+  const title = $(".internal").attr("title");
+
+  // const res = await fetch(
+  //   "https://japari-library.com/wiki/File:Forest_OwletOriginal.jpg"
+  // );
+  // const dataString = await res.text();
+  // const $ = cheerio.load(dataString);
+  // const link = $(".internal").attr("href");
+  // const title = $(".internal").attr("title");
+
+  // const link =
+  //   "https://japari-library.com/w/images/3/3c/Forest_OwletOriginal.jpg";
+  // const title = "Forest_OwletOriginal";
+
+  return {
+    props: { link, title },
+  };
+}
+
 const Home: NextPage = (props) => {
   return (
     <>
@@ -36,24 +60,6 @@ const Home: NextPage = (props) => {
     </>
   );
 };
-
-export async function getStaticProps() {
-  const data = await fetch(
-    "https://japari-library.com/wiki/File:Forest_OwletOriginal.jpg"
-  );
-  const dataString = await data.text();
-  const $ = cheerio.load(dataString);
-  const link = $(".internal").attr("href");
-  const title = $(".internal").attr("title");
-
-  // const link =
-  //   "https://japari-library.com/w/images/3/3c/Forest_OwletOriginal.jpg";
-  // const title = "Forest_OwletOriginal";
-
-  return {
-    props: { link, title },
-  };
-}
 
 export default Home;
 
