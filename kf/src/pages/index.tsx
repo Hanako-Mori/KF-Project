@@ -3,7 +3,7 @@
 // import Image from "next/image";
 // import styles from "../styles/Home.module.css";
 
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -13,8 +13,34 @@ export async function getStaticProps() {
   const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
   const resString = await res.text();
   const $ = cheerio.load(resString);
-  const link = $(".internal").attr("href");
-  const title = $(".internal").attr("title");
+  // let testArray: string[];
+  const test = $("img")
+    .parent()
+    .each(function (i, element) {
+      console.log($(this).attr("title"));
+      // let x = $(this).attr("title");
+      // testArray.push(x);
+    });
+  return {
+    props: { test },
+  };
+
+  // https://dev.to/caelinsutch/building-a-web-scraper-in-typescript-14l1
+
+  // https://stackoverflow.com/questions/50429215/pulling-multiple-values-from-the-same-tr-with-cheerio
+
+  // const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
+  // const resString = await res.text();
+  // const $ = cheerio.load(resString);
+  // const test = $("td a").text();
+  // const testArray = test.split(" ");
+  // console.log(test);
+  // console.log(typeof test);
+  // console.log(testArray);
+  // console.log(typeof testArray);
+  // return {
+  //   props: { test },
+  // };
 
   // const res = await fetch(
   //   "https://japari-library.com/wiki/File:Forest_OwletOriginal.jpg"
@@ -23,14 +49,9 @@ export async function getStaticProps() {
   // const $ = cheerio.load(dataString);
   // const link = $(".internal").attr("href");
   // const title = $(".internal").attr("title");
-
-  // const link =
-  //   "https://japari-library.com/w/images/3/3c/Forest_OwletOriginal.jpg";
-  // const title = "Forest_OwletOriginal";
-
-  return {
-    props: { link, title },
-  };
+  // return {
+  //   props: { link, title },
+  // };
 }
 
 const Home: NextPage = (props) => {
@@ -43,20 +64,20 @@ const Home: NextPage = (props) => {
       </Head>
       <div>
         <Image
-          src="https://japari-library.com/w/images/6/6d/African_Rock_PythonOriginal.jpg"
-          width={268}
-          height={445}
+          src="https://japari-library.com/w/images/d/d4/Hi-no-ToriOriginal.jpg"
+          width={455}
+          height={600}
           alt="African_Rock_PythonOriginal"
         />
       </div>
-      <div>
+      {/* <div>
         <Image
           src={"https://japari-library.com/" + props.link}
           width={200}
           height={400}
           alt={props.title}
         />
-      </div>
+      </div> */}
     </>
   );
 };
