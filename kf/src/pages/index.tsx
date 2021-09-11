@@ -10,48 +10,38 @@ import Image from "next/image";
 import React from "react";
 
 export async function getStaticProps() {
+  // 🍂Cheerio boiler plate:🍃
+  // 🌿Get html data -> convernt to string -> converto Cheerio object🌿
   const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
-  const resString = await res.text();
-  const $ = cheerio.load(resString);
-  // let testArray: string[];
-  const test = $("img")
+  const htmlString = await res.text();
+  const $ = cheerio.load(htmlString);
+
+  // 🍂Declare lists🍃
+  let friendNames: String[] = [];
+  let friendPages: String[] = [];
+  let friendImages: String[] = [];
+
+  // 🍂Fill friendNames and friendLinks🍃
+  $("img")
     .parent()
     .each(function (i, element) {
-      console.log($(this).attr("title"));
-      // let x = $(this).attr("title");
-      // testArray.push(x);
+      let friendName = $(element).attr("title");
+      let friendPage = $(element).attr("href");
+      if (friendPage != undefined) {
+        friendPages[i] = friendPage;
+      }
+      if (friendName != undefined) {
+        friendNames[i] = friendName;
+      }
     });
+
+  // 🍂Fill friendImageLinks🍃
+
+  console.log(friendNames);
+  console.log(friendPages);
   return {
-    props: { test },
+    props: { friendNames, friendPages },
   };
-
-  // https://dev.to/caelinsutch/building-a-web-scraper-in-typescript-14l1
-
-  // https://stackoverflow.com/questions/50429215/pulling-multiple-values-from-the-same-tr-with-cheerio
-
-  // const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
-  // const resString = await res.text();
-  // const $ = cheerio.load(resString);
-  // const test = $("td a").text();
-  // const testArray = test.split(" ");
-  // console.log(test);
-  // console.log(typeof test);
-  // console.log(testArray);
-  // console.log(typeof testArray);
-  // return {
-  //   props: { test },
-  // };
-
-  // const res = await fetch(
-  //   "https://japari-library.com/wiki/File:Forest_OwletOriginal.jpg"
-  // );
-  // const dataString = await res.text();
-  // const $ = cheerio.load(dataString);
-  // const link = $(".internal").attr("href");
-  // const title = $(".internal").attr("title");
-  // return {
-  //   props: { link, title },
-  // };
 }
 
 const Home: NextPage = (props) => {
