@@ -13,17 +13,23 @@ export async function getStaticProps() {
   const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
   const resString = await res.text();
   const $ = cheerio.load(resString);
+  const test = $("img");
+  const testString = JSON.stringify(test);
+  console.log(typeof test);
+  console.log(typeof testString);
   // let testArray: string[];
-  const test = $("img")
-    .parent()
-    .each(function (i, element) {
-      console.log($(this).attr("title"));
-      // let x = $(this).attr("title");
-      // testArray.push(x);
-    });
+  // const test = $("img")
+  //   .parent()
+  //   .each(function (i, element) {
+  //     console.log($(this).attr("title"));
+  //     // let x = $(this).attr("title");
+  //     // testArray.push(x);
+  // });
   return {
-    props: { test },
+    props: { testString },
   };
+
+  // https://github.com/cheeriojs/cheerio/issues/169
 
   // https://dev.to/caelinsutch/building-a-web-scraper-in-typescript-14l1
 
