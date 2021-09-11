@@ -13,52 +13,95 @@ export async function getStaticProps() {
   const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
   const resString = await res.text();
   const $ = cheerio.load(resString);
-  const test = $("img");
-  const testString = JSON.stringify(test);
-  console.log(typeof test);
-  console.log(typeof testString);
-  // let testArray: string[];
-  // const test = $("img")
-  //   .parent()
-  //   .each(function (i, element) {
-  //     console.log($(this).attr("title"));
-  //     // let x = $(this).attr("title");
-  //     // testArray.push(x);
-  // });
+  let friendNames: String[] = [];
+  let friendLinks: String[] = [];
+  $("img")
+    .parent()
+    .each(function (i, element) {
+      let friendName = $(element).attr("title");
+      let friendLink = $(element).attr("href");
+      if (friendLink != undefined) {
+        friendLinks[i] = friendLink;
+      }
+      if (friendName != undefined) {
+        friendNames[i] = friendName;
+      }
+    });
+  console.log(friendNames);
+  console.log(friendLinks);
   return {
-    props: { testString },
+    props: { friendNames, friendLinks },
   };
-
-  // https://github.com/cheeriojs/cheerio/issues/169
-
-  // https://dev.to/caelinsutch/building-a-web-scraper-in-typescript-14l1
-
-  // https://stackoverflow.com/questions/50429215/pulling-multiple-values-from-the-same-tr-with-cheerio
-
-  // const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
-  // const resString = await res.text();
-  // const $ = cheerio.load(resString);
-  // const test = $("td a").text();
-  // const testArray = test.split(" ");
-  // console.log(test);
-  // console.log(typeof test);
-  // console.log(testArray);
-  // console.log(typeof testArray);
-  // return {
-  //   props: { test },
-  // };
-
-  // const res = await fetch(
-  //   "https://japari-library.com/wiki/File:Forest_OwletOriginal.jpg"
-  // );
-  // const dataString = await res.text();
-  // const $ = cheerio.load(dataString);
-  // const link = $(".internal").attr("href");
-  // const title = $(".internal").attr("title");
-  // return {
-  //   props: { link, title },
-  // };
 }
+
+// https://stackoverflow.com/questions/50429215/pulling-multiple-values-from-the-same-tr-with-cheerio
+// The key idea is to use the each() method for Cheerio objects
+
+// let testArray: string[];
+// const test = $("img")
+//   .parent()
+//   .toArray()
+//   .map((x) => {
+//     return $(x).text();
+//   });
+// let y = [];
+// console.log(test);
+
+// return {
+//   props: { resString },
+// };
+
+// const test = $("img")
+// .parent()
+// .each(function (i, element) {
+//   console.log($(this).attr("title"));
+//   console.log(i);
+//   // console.log(element);
+//   // let x = $(this).attr("title");
+//   // testArray.push(x);
+// });
+
+// https://stackoverflow.com/questions/46289562/is-there-simple-way-to-get-array-from-td-elements-on-page-node-js-cheerio-jque
+
+// https://stackoverflow.com/questions/25343487/save-array-from-cheerio-in-node-js
+
+// const test = $("img");
+// const testString = JSON.stringify(test);
+// console.log(typeof test);
+// console.log(typeof testString);
+// return {
+//   props: { testString },
+// };
+
+// https://github.com/cheeriojs/cheerio/issues/169
+
+// https://dev.to/caelinsutch/building-a-web-scraper-in-typescript-14l1
+
+// https://stackoverflow.com/questions/50429215/pulling-multiple-values-from-the-same-tr-with-cheerio
+
+// const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
+// const resString = await res.text();
+// const $ = cheerio.load(resString);
+// const test = $("td a").text();
+// const testArray = test.split(" ");
+// console.log(test);
+// console.log(typeof test);
+// console.log(testArray);
+// console.log(typeof testArray);
+// return {
+//   props: { test },
+// };
+
+// const res = await fetch(
+//   "https://japari-library.com/wiki/File:Forest_OwletOriginal.jpg"
+// );
+// const dataString = await res.text();
+// const $ = cheerio.load(dataString);
+// const link = $(".internal").attr("href");
+// const title = $(".internal").attr("title");
+// return {
+//   props: { link, title },
+// };
 
 const Home: NextPage = (props) => {
   return (
