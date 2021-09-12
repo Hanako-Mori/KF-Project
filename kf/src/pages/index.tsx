@@ -48,13 +48,13 @@ export async function getStaticProps() {
   const start = new Date().getTime();
 
   // 🌿Set request limit🌿
-  // let i = 40;
-  // const j = friendPages.length;
-  const j = Math.floor(friendPages.length / 40);
+  const i0 = 0;
+  // const j = Math.floor(friendPages.length / 40);
+  const j = friendPages.length;
   console.log(`Getting ${j} friends`);
 
   // 🌿Fill friendImages🌿
-  for (let i = 200; i < 200 + j; i++) {
+  for (let i = i0; i < i0 + j; i++) {
     const loopStart = new Date().getTime();
     // 🌿Cheerio boilerplate:🌿
     const pageHtml = await fetch(index + friendPages[i]);
