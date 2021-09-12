@@ -10,11 +10,15 @@ import Image from "next/image";
 import React from "react";
 
 export async function getStaticProps() {
+  // 🍂Base links🍃
+  const index = "https://japari-library.com";
+  const hub = "/wiki/List_of_Friends";
+
   // 🍂Cheerio boiler plate:🍃
-  // 🌿Get html data -> convernt to string -> converto Cheerio object🌿
-  const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
-  const htmlString = await res.text();
-  const $ = cheerio.load(htmlString);
+  // 🌿Get html data -> convernt to string -> convert to Cheerio object🌿
+  const hubHtml = await fetch(index + hub);
+  const hubString = await hubHtml.text();
+  const $hub = cheerio.load(hubString);
 
   // 🍂Declare lists🍃
   let friendNames: String[] = [];
@@ -22,27 +26,60 @@ export async function getStaticProps() {
   let friendImages: String[] = [];
 
   // 🍂Fill friendNames and friendLinks🍃
-  $("img")
+  $hub("img")
     .parent()
     .each(function (i, element) {
-      let friendName = $(element).attr("title");
-      let friendPage = $(element).attr("href");
-      if (friendPage != undefined) {
-        friendPages[i] = friendPage;
+      let name = $hub(element).attr("title");
+      let page = $hub(element).attr("href");
+      if (page != undefined) {
+        friendPages[i] = page;
       }
-      if (friendName != undefined) {
-        friendNames[i] = friendName;
+      if (name != undefined) {
+        friendNames[i] = name;
       }
     });
 
-  // 🍂Fill friendImageLinks🍃
-
+  // 🍂Print friendNames and friendLinks🍃
   console.log(friendNames);
   console.log(friendPages);
+
+  // 🍂Fill friendImages🍃
+  // 🌿Start time🌿
+  const start = new Date().getTime();
+
+  // 🌿Set request limit🌿
+  // let i = 40;
+  // const j = friendPages.length;
+  const j = Math.floor(friendPages.length / 40);
+  console.log(`Getting ${j} friends`);
+
+  // 🌿Fill friendImages🌿
+  for (let i = 200; i < 200 + j; i++) {
+    const loopStart = new Date().getTime();
+    // 🌿Cheerio boilerplate:🌿
+    const pageHtml = await fetch(index + friendPages[i]);
+    const pageString = await pageHtml.text();
+    const $page = cheerio.load(pageString);
+
+    // 🌿Get and store default image link🌿
+    let image = $page("img").attr("src");
+    // if (image != undefined) {
+    //   friendImages[i] = image;
+    // }
+    // friendImages[i] ?? image;
+    console.log(`Image ${i}: ${image}`);
+    const loopEnd = new Date().getTime();
+    console.log(`Image ${i} time: ${(loopEnd - loopStart) / 1000} seconds`);
+  }
+  const end = new Date().getTime();
+  console.log(`Total time elapsed: ${(end - start) / 1000} seconds`);
+
   return {
-    props: { friendNames, friendPages },
+    props: { friendNames, friendPages, friendImages },
   };
 }
+
+// https://nono.ma/measure-time-elapsed-typescript
 
 const Home: NextPage = (props) => {
   return (
