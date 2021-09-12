@@ -11,10 +11,12 @@ import React from "react";
 
 export async function getStaticProps() {
   // 🍂Cheerio boiler plate:🍃
-  // 🌿Get html data -> convernt to string -> converto Cheerio object🌿
-  const res = await fetch("https://japari-library.com/wiki/List_of_Friends");
-  const htmlString = await res.text();
-  const $ = cheerio.load(htmlString);
+  // 🌿Get html data -> convernt to string -> convert to Cheerio object🌿
+  const index = "https://japari-library.com";
+  const hub = "/wiki/List_of_Friends";
+  const hubHtml = await fetch(index + hub);
+  const hubString = await hubHtml.text();
+  const $ = cheerio.load(hubString);
 
   // 🍂Declare lists🍃
   let friendNames: String[] = [];
@@ -25,20 +27,25 @@ export async function getStaticProps() {
   $("img")
     .parent()
     .each(function (i, element) {
-      let friendName = $(element).attr("title");
-      let friendPage = $(element).attr("href");
-      if (friendPage != undefined) {
-        friendPages[i] = friendPage;
+      let name = $(element).attr("title");
+      let page = $(element).attr("href");
+      if (page != undefined) {
+        friendPages[i] = page;
       }
-      if (friendName != undefined) {
-        friendNames[i] = friendName;
+      if (name != undefined) {
+        friendNames[i] = name;
       }
     });
 
-  // 🍂Fill friendImageLinks🍃
-
+  // 🍂Print friendNames and friendLinks🍃
   console.log(friendNames);
   console.log(friendPages);
+
+  // 🍂Fill friendImages🍃
+  // 🌿Cheerio boilerplate:🌿
+  // let i = 40;
+  // const pageHtml = await fetch(index + friendPages[i]);
+
   return {
     props: { friendNames, friendPages },
   };
